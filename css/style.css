@@ -12,7 +12,6 @@
 body{
     font-family: roboto;
     font-style: normal;
-    background: #000;  
     text-transform: capitalize; 
 }
 
@@ -23,21 +22,23 @@ body{
     text-transform: uppercase;
     padding-bottom: 0.5em;
     border-bottom: 1px solid #ccc;
+    animation: 500ms toLeft forwards;
 }
 h1 , h3{
     font-weight: 400;
 }
 
 .weather-app{
+    width: 100%;
     min-height: 100vh;
-    background-image: url(../media/day/sunny.jpg);
+    background-image: url(./media/mainBackground.webp);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     color: #fff;
     position: relative;
-    transition: 300ms;
-    opacity: 1;
+    transition: background-image 300ms linear;
+
 }
 
 .weather-app::before{
@@ -47,7 +48,7 @@ h1 , h3{
    left: 0; 
    width: 100%;
    height: 100%;
-   background: rgba(0 , 0 , 0 , 0.3);
+   background-color: rgba(0, 0, 0, 0.4);
    z-index: 0;
 }
 .container{
@@ -97,7 +98,8 @@ h1 , h3{
 }
 .weather img{
     display: block;
-    margin: 0.5em 0;
+    width: 150px;
+
 }
 
 .panel{
@@ -111,16 +113,21 @@ h1 , h3{
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(110,110,110,0.7);
     overflow: scroll;
+    opacity: 0;
+    animation: 500ms fadeIn forwards;
+    animation-delay: 500ms;
 }
 .panel form{
-    margin-bottom: 3em;
+    margin-bottom: 1em;
+    margin-top: 16px;
+    animation: 3s toRight forwards;
 }
 .submit{
     position: absolute;
     top: 0;
     right: 0;
     margin: 0;
-    padding: 1.5rem;
+    padding: 18px;
     border: none;
     outline: none;
     background: #fa6d1b !important;
@@ -138,7 +145,7 @@ h1 , h3{
     border: unset;
     border-bottom: 1px solid #ccc;
     margin-left: 0.5rem;
-    padding:  1.5rem;
+    padding:  1rem;
     width: 80%;
     color: #fff;
     font-size: 1.2em;
@@ -152,42 +159,194 @@ h1 , h3{
     letter-spacing: 1px;
 }
 .panel{
-    padding: 0 1em;
+    padding: 0.5em 1em;
 }
-.panel ul{
+.panel .currentDetails{
     padding: 0 0 1em 0;
-    margin: 2em 0;
+    margin: 0.5em 0;
+    display: flex;
+    flex-direction: row;
     border-bottom: 1px solid #ccc;
+    gap: 16px;
+    opacity: 0;
+    
 }
-.panel ul li{
-    color: #ccc;
-    padding: 0 1em;
-    margin: 2em 0;
+.panel .currentDetails ul{
+    color: #f2f2f2;
+    padding: 0 0.5em;
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 50%;
     list-style: none;
 }
-.panel .details h4{
-    font-style: normal;
-    font-size: 1.5em;
-    letter-spacing: 1px;
-    font-weight: 200;
-}
-.cities {
-    display: block;
-    cursor: pointer;
-}
-.city:hover{
-    color: #ffffff;
-}
-.details li{
+.currentDetails li{
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
 }
 
-.sun li img{
-   width: 50px;
-   height: 50px; 
+/* hourly,daily start */
+.hourlyContainer , .dailyContainer{
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
+    gap: 10px;
+    padding: 12px 8px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #ccc;
+    opacity: 0;
+    animation-delay: 1s;
 }
+
+.card{
+    background: rgb(110,110,110,0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(110,110,110,0.7);
+    width: 30% ;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px -1px rgba(0 , 0 , 0 , 0.3);
+    text-align: center;
+}
+.card img{
+    width: 80px;
+    height: 80px;
+}
+.hcondition , .dcondition{
+    font-size: 12px;
+    padding-bottom: 12px;
+}
+
+.card div{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 16px;
+}
+.maxtemp{
+    color: #fa6d1b;
+    font-size: 16px;
+
+}
+.mintemp{
+    color: rgb(16, 16, 153);
+    font-size: 18px;
+    font-weight: 900;
+}
+.panel h4{
+    font-style: normal;
+    font-size: 28px;
+    letter-spacing: 1px;
+    font-weight: 200;
+    padding: 6px;
+}
+/* hourly,daily end */
+
+@keyframes toLeft {
+    0% {
+        transform: translateX(-300px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+@keyframes toRight {
+    0% {
+        transform: translateX(3000px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  
+  100% { transform: rotate(360deg); }
+}
+.reload{
+    animation: 1s toLeft forwards;
+    opacity: 1;
+}
+.fade{
+    animation: 2s fadeIn forwards;
+    opacity: 1;
+}
+.error {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(110, 110, 110, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.4s ease forwards;
+}
+.error-box {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 30px 40px;
+  border-radius: 6px;
+  display: flex;flex-direction: column;
+  gap: 24px;
+  color: white;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeIn 0.4s ease 0.3s forwards;
+}
+
+/* preLoader */
+.preload{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(110, 110, 110, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display:flex; 
+  align-items:center; 
+  justify-content:center;
+  z-index:9999;
+}
+.spinner{
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #d46b16;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+/* mediaquery start */
 
 @media screen and (max-width: 800px) {
     .panel, .container{
@@ -200,6 +359,9 @@ h1 , h3{
 @media screen and (max-width: 500px) {
     html{
         font-size: 12px;
+    }
+    .card{
+        width: 30%;
     }
 }
 
